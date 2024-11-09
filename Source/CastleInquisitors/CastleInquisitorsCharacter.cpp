@@ -97,17 +97,11 @@ void ACastleInquisitorsCharacter::Move(const FInputActionValue& Value)
 
 	if (Controller != nullptr)
 	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+		// Define fixed forward and right directions
+		const FVector ForwardDirection = FVector(1.0f, 0.0f, 0.0f); // Forward is along the X-axis
+		const FVector RightDirection = FVector(0.0f, 1.0f, 0.0f);   // Right is along the Y-axis
 
-		// get forward vector
-		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-	
-		// get right vector 
-		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-
-		// add movement 
+		// add movement
 		AddMovementInput(ForwardDirection, MovementVector.Y);
 		AddMovementInput(RightDirection, MovementVector.X);
 	}
