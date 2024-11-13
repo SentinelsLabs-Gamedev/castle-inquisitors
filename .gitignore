@@ -5,7 +5,6 @@ Intermediate/
 Saved/
 
 # Ignore project user-specific settings and log files
-*.sln
 *.suo
 *.xcodeproj
 *.xcworkspace
@@ -78,7 +77,6 @@ Build/
 *.pidb
 *.psess
 *.pdb
-*.sln
 *.suo
 *.userprefs
 
