@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "AbilitySystemInterface.h"
+#include "CiRPGAttributeSet.h"
 #include "CastleInquisitorsCharacter.generated.h"
 
 class USpringArmComponent;
@@ -16,7 +18,7 @@ struct FInputActionValue;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class ACastleInquisitorsCharacter : public ACharacter
+class ACastleInquisitorsCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -40,6 +42,12 @@ class ACastleInquisitorsCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* MoveAction;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Abilities", meta = (AllowPrivateAccess = "true"))
+	UAbilitySystemComponent* AbilitySystemComponent;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Attributes", meta = (AllowPrivateAccess = "true"))
+	const UCiRPGAttributeSet* RPGAttributeSet;
+
 public:
 	ACastleInquisitorsCharacter();
 	
@@ -48,14 +56,18 @@ protected:
 
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
-			
 
-protected:
+	UFUNCTION(BlueprintCallable, Category="Functions")
+	void TestHealthAttribute() const;
+	
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 	// To add mapping context
 	virtual void BeginPlay();
+
+	// Returns our ability system component
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 public:
 	/** Returns CameraBoom subobject **/
