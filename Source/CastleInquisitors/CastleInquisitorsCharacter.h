@@ -34,7 +34,7 @@ class ACastleInquisitorsCharacter : public ACharacter, public IAbilitySystemInte
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputMappingContext* DefaultMappingContext;
 
-	/** Jump Input Action */
+	/** Jump to Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* JumpAction;
 
@@ -48,10 +48,6 @@ class ACastleInquisitorsCharacter : public ACharacter, public IAbilitySystemInte
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Attributes", meta = (AllowPrivateAccess = "true"))
 	const UCiRPGAttributeSet* RPGAttributeSet;
 
-public:
-	ACastleInquisitorsCharacter();
-	
-
 protected:
 
 	/** Called for movement input */
@@ -64,7 +60,7 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 	// To add mapping context
-	virtual void BeginPlay();
+	virtual void BeginPlay() override;
 
 	// Returns our ability system component
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
@@ -74,5 +70,9 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	const UCiRPGAttributeSet* GetRPGAttributeSet() const;
+	
+	ACastleInquisitorsCharacter();
 };
 

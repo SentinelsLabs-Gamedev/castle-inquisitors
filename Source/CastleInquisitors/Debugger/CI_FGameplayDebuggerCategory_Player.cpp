@@ -1,5 +1,7 @@
 #include "CI_FGameplayDebuggerCategory_Player.h"
 
+#include "CastleInquisitors/CastleInquisitorsCharacter.h"
+
 #if WITH_GAMEPLAY_DEBUGGER
 
 #include "GameFramework/Actor.h"
@@ -15,9 +17,12 @@ void CI_FGameplayDebuggerCategory_Player::CollectData(APlayerController* OwnerPC
 {
 	if (OwnerPC && OwnerPC->GetPawn())
 	{
-		DataPack.AddData(TEXT("Actor Name"), OwnerPC->GetPawn()->GetName());
-		DataPack.AddData(TEXT("Actor Position"), OwnerPC->GetPawn()->GetActorLocation().ToString());
-		DataPack.AddData(TEXT("Actor Rotation"), OwnerPC->GetPawn()->GetActorRotation().ToString());
+		auto OwnerPawn = OwnerPC->GetPawn();
+		auto Character = Cast<ACastleInquisitorsCharacter>(OwnerPawn);
+		DataPack.AddData(TEXT("Actor Name"), OwnerPawn->GetName());
+		DataPack.AddData(TEXT("Actor Position"), OwnerPawn->GetActorLocation().ToString());
+		DataPack.AddData(TEXT("Actor Rotation"), OwnerPawn->GetActorRotation().ToString());
+		DataPack.AddData(TEXT("Actor Health"),FString::SanitizeFloat(Character -> GetRPGAttributeSet() -> GetHealth()));
 	}
 }
 
