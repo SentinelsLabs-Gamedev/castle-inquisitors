@@ -18,6 +18,11 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 //////////////////////////////////////////////////////////////////////////
 // ACastleInquisitorsCharacter
 
+const UCiRPGAttributeSet* ACastleInquisitorsCharacter::GetRPGAttributeSet() const
+{
+	return this->RPGAttributeSet;
+}
+
 ACastleInquisitorsCharacter::ACastleInquisitorsCharacter()
 {
 	// Set size for collision capsule

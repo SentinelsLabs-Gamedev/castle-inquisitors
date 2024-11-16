@@ -48,10 +48,6 @@ class ACastleInquisitorsCharacter : public ACharacter, public IAbilitySystemInte
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Attributes", meta = (AllowPrivateAccess = "true"))
 	const UCiRPGAttributeSet* RPGAttributeSet;
 
-public:
-	ACastleInquisitorsCharacter();
-	
-
 protected:
 
 	/** Called for movement input */
@@ -74,5 +70,9 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	const UCiRPGAttributeSet* GetRPGAttributeSet() const;
+	
+	ACastleInquisitorsCharacter();
 };
 
