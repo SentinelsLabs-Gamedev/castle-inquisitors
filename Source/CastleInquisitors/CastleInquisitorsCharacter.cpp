@@ -18,11 +18,6 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 //////////////////////////////////////////////////////////////////////////
 // ACastleInquisitorsCharacter
 
-const UCiRPGAttributeSet* ACastleInquisitorsCharacter::GetRPGAttributeSet() const
-{
-	return this->RPGAttributeSet;
-}
-
 ACastleInquisitorsCharacter::ACastleInquisitorsCharacter()
 {
 	// Set size for collision capsule
@@ -56,9 +51,6 @@ ACastleInquisitorsCharacter::ACastleInquisitorsCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
-
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
-	RPGAttributeSet = CreateDefaultSubobject<UCiRPGAttributeSet>(TEXT("RPGAttributeSet"));
 	
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
@@ -68,16 +60,6 @@ void ACastleInquisitorsCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
-
-	if (UAbilitySystemComponent* Asc = GetAbilitySystemComponent();IsValid(Asc))
-	{
-		RPGAttributeSet = Asc->GetSet<UCiRPGAttributeSet>();
-	}
-}
-
-UAbilitySystemComponent* ACastleInquisitorsCharacter::GetAbilitySystemComponent() const
-{
-	return AbilitySystemComponent;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -127,39 +109,4 @@ void ACastleInquisitorsCharacter::Move(const FInputActionValue& Value)
 	}
 }
 
-void ACastleInquisitorsCharacter::TestHealthAttribute() const
-{
-	const TSubclassOf<UGameplayEffect> DamageEffectClass = UCiDamageEffect::StaticClass();
-	if (!DamageEffectClass)
-	{
-		UE_LOG(LogTemp, Error, TEXT("DamageEffectClass is null! Ensure it is properly set."));
-		return;
-	}
-
-	const FGameplayTag DamageTag = FGameplayTag::RequestGameplayTag(FName("Damage.Test"));
-	if (!DamageTag.IsValid())
-	{
-		UE_LOG(LogTemp, Error, TEXT("Gameplay Tag 'Damage.Test' is not valid! Ensure it is defined in the Gameplay Tag Table."));
-		return;
-	}
-
-	const FGameplayEffectSpecHandle EffectSpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(DamageEffectClass, 1.0f, GetAbilitySystemComponent()->MakeEffectContext());
-	if (!EffectSpecHandle.IsValid())
-	{
-		UE_LOG(LogTemp, Error, TEXT("EffectSpecHandle is not valid!"));
-		return;
-	}
-
-	
-	if (FGameplayEffectSpec* Spec = EffectSpecHandle.Data.Get(); Spec)
-	{
-		Spec->SetSetByCallerMagnitude(DamageTag, -50.0f); 
-
-		GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*Spec);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Failed to retrieve FGameplayEffectSpec from EffectSpecHandle!"));
-	}
-}
 
