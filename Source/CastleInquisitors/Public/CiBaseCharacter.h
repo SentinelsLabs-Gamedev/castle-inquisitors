@@ -27,12 +27,6 @@ private:
 	// DefaultAbilities are assigned through Blueprint
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Abilities", meta = (AllowPrivateAccess = "true"))
 	TArray<TSubclassOf<UGameplayAbility>> DefaultAbilities;
-
-	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	// UInputMappingContext* AbilitiesContext;
-	//
-	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	// UInputAction* MeleeAction;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability", meta=(AllowPrivateAccess=true))
 	UAnimMontage* MeleeMontage;
