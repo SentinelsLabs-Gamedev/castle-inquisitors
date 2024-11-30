@@ -20,6 +20,7 @@ protected:
 
 public:
 	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(UCiRPGAttributeSet, Health);
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	float GetHealth() const;
 	float SetHealth(float NewVal) const;
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(Health);

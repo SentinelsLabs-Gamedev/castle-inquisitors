@@ -4,6 +4,7 @@
 #include "CiDamageEffect.h"
 
 #include "CiRPGAttributeSet.h"
+#include "Abilities/CiGameplayTags.h"
 
 UCiDamageEffect::UCiDamageEffect()
 {
@@ -14,7 +15,7 @@ UCiDamageEffect::UCiDamageEffect()
 	ModifiedInfo.ModifierOp = EGameplayModOp::Additive;
 
 	FSetByCallerFloat SetByCallerMagnitude;
-	SetByCallerMagnitude.DataTag = FGameplayTag::RequestGameplayTag(FName("Damage.Test"));
+	SetByCallerMagnitude.DataTag = FGameplayTag::RequestGameplayTag(FName(EnumToDisplayName(ECiGameplayTags::DamageTest)));
 	ModifiedInfo.ModifierMagnitude = FGameplayEffectModifierMagnitude(SetByCallerMagnitude);
 	
 	Modifiers.Add(ModifiedInfo);
