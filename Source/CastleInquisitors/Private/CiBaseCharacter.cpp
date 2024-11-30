@@ -5,8 +5,6 @@
 
 #include "AbilitySystemComponent.h"
 #include "CiDamageEffect.h"
-#include "EnhancedInputSubsystems.h"
-#include "EnhancedInputComponent.h"
 #include "Abilities/CiGameplayTags.h"
 #include "Abilities/CiMeleeAbility.h"
 
@@ -37,26 +35,6 @@ void ACiBaseCharacter::BeginPlay()
 void ACiBaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-}
-
-// Called to bind functionality to input
-void ACiBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	// Add Input Mapping Context
-	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
-	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
-			UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-		{
-			Subsystem->AddMappingContext(AbilitiesContext, 0);
-		}
-	}
-
-	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
-	{
-		EnhancedInputComponent->BindAction(MeleeAction, ETriggerEvent::Triggered, this, &ACiBaseCharacter::ActivateMeleeAbility);
-	}
 }
 
 UAbilitySystemComponent* ACiBaseCharacter::GetAbilitySystemComponent() const

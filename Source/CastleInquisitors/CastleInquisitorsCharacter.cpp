@@ -72,6 +72,7 @@ void ACastleInquisitorsCharacter::SetupPlayerInputComponent(UInputComponent* Pla
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+			Subsystem->AddMappingContext(AbilitiesContext, 0);
 		}
 	}
 	
@@ -84,6 +85,9 @@ void ACastleInquisitorsCharacter::SetupPlayerInputComponent(UInputComponent* Pla
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACastleInquisitorsCharacter::Move);
+
+		// Ability
+		EnhancedInputComponent->BindAction(MeleeAction, ETriggerEvent::Completed, this, &ACastleInquisitorsCharacter::ActivateMeleeAbility);
 	}
 	else
 	{
