@@ -10,8 +10,6 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
-#include "AbilitySystemComponent.h"
-#include "CiDamageEffect.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -67,12 +65,14 @@ void ACastleInquisitorsCharacter::BeginPlay()
 
 void ACastleInquisitorsCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	// Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+			Subsystem->AddMappingContext(AbilitiesContext, 0);
 		}
 	}
 	
@@ -85,6 +85,9 @@ void ACastleInquisitorsCharacter::SetupPlayerInputComponent(UInputComponent* Pla
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACastleInquisitorsCharacter::Move);
+
+		// Ability
+		EnhancedInputComponent->BindAction(MeleeAction, ETriggerEvent::Completed, this, &ACastleInquisitorsCharacter::ActivateMeleeAbility);
 	}
 	else
 	{
